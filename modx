@@ -1,0 +1,96 @@
+#include<iostream>
+using namespace std;
+
+void NhapA(int arr[], int &n);
+void NhapB(float b[], int &n);
+float KiemTra(float b[],int n);
+void XuatA(int arr[], int n);
+void XuatB(float b[], int n);
+float max(float b[], int n);
+int n;
+int main()
+{
+	cout<<"nhap vao tong so phan tu n= ";
+	cin>>n;
+	int a[100];
+	float b[100];
+	NhapA(a,n);
+	do {
+		NhapB(b,n);	
+		if (KiemTra(b,n) == 1)
+		{
+			break;		
+		}
+		else
+			cout << "\nBPPXS chua hop le!\nTong cac xac suat phai bang 1."<<endl;
+	}
+	while (KiemTra(b,n) != 1);
+	
+	XuatA(a,n);
+	XuatB(b,n);
+	cout<<"so lon nhat: max = "<< max(b,n);
+	system("pause");
+	return 0;
+}
+void NhapA(int a[],int &n)
+{
+	for(int i=0;i<n;i++)
+	{
+		cout<<"nhap X["<<i<<"]";
+		cin>>a[i];
+	}
+}
+void NhapB(float b[],int &n)
+{
+	for(int i=0;i<n;i++)
+	{	
+		do
+		{
+			do
+			{
+				cout<<"Xac Suat cua X["<<i<<"] la P["<<i<<"]= ";
+				cin>>b[i];
+			}
+			while(b[i]>1);
+		}
+		while(b[i]<0);
+	}
+}
+float KiemTra(float b[],int n)
+{
+	float TongXS = 0;
+	for (int i = 0; i <n; i++)
+	{
+		TongXS += b[i];
+	}
+	return TongXS;
+}
+void XuatA(int a[],int n)
+{
+	cout<<"\n gia tri cua bnn la ";
+	for(int i=0;i<n;i++)
+	{
+		cout<<a[i]<<" ";
+	}
+}
+void XuatB(float b[],int n)
+{
+	cout<<"\n gia tri xac suat la ";
+	for(int i=0;i<n;i++)
+	{
+		cout<<b[i]<<" ";
+	}
+}
+
+float max(float b[], int n)
+{
+	float max = b[0];
+	for(int i = 1; i<n;i++)
+	{
+		if(b[i]>max)
+		{
+			max = b[i];
+		}
+	}
+	return max;
+}
