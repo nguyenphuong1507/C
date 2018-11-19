@@ -1,0 +1,374 @@
+#include<iostream>
+#include<cmath>
+#include<math.h>
+using namespace std;
+
+
+class XSTK {
+
+public:
+
+	float x[100], ni[100];
+	int k, n;
+	float e, U, dtc, t, dlctt;
+
+
+	XSTK(){ k = 0; };
+	void nhapcomau();
+	void NhapSoGiaTriDauHieu();
+	bool find_index(float value);
+	void nhapx();
+	void nhapni();
+	float Tong(int t);
+	void xuat();
+	float DoLechChuanMau();
+	float PhuongSaiMau();
+	float TrungBinhMau();
+	void NhapDoTinCay();
+	void KhoangDoiXungM();
+	void KhoangTraiM();
+	void KhoangPhaiM();
+	void KhoangDoiXungTT();
+	void KhoangTraiTT();
+	void KhoangPhaiTT();
+	void LuaChonKULM();
+	void LuaChonKULTT();
+	void LuaChonTH();
+	void NhapDoLechChuanTongThe();
+};
+
+
+
+int main()
+{
+	XSTK h;
+	h.nhapcomau();
+	h.NhapSoGiaTriDauHieu();
+	h.nhapx();
+	h.nhapni();
+
+	
+	h.xuat();
+	cout << "\nBPP tan so dang diem  !!!";
+
+	cout << "\ntrung binh mau: " << h.TrungBinhMau() << endl;
+	cout << "phuong sai mau: " << h.PhuongSaiMau() << endl;
+	cout << "do lech chuan: " << h.DoLechChuanMau() << endl;
+
+	h.NhapDoTinCay();
+	h.LuaChonTH();
+
+	system("pause");
+	return 0;
+}
+
+
+
+
+void XSTK:: nhapcomau()
+{
+	do
+	{
+		cout << "\n nhap co mau: ";
+		cin >> n;
+		if (n > 0)
+			break;
+		else
+			cout << "\nERRO:::::Nhap lai!!!";
+	} while (n <= 0);
+}
+
+void XSTK::NhapSoGiaTriDauHieu()
+{
+	do {
+		cout << "\nNhap so gia tri dau hieu: ";
+		cin >> k;
+		if (k > 0)
+			break;
+		else
+			cout << "\nERRO:::::Nhap lai!!!";
+	} while (k <= 0);
+
+}
+
+
+bool XSTK::find_index(float value)
+{
+	for (int i = 0; i < k; i++)
+	{
+		if (x[i] == value)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void XSTK::nhapx()
+{
+
+	float temp;
+	for (int i = 0; i < k; i++)
+	{
+		cout << "X" << i << " = ";
+		cin >> temp;
+		if (find_index(temp) == true)
+		{
+			cout << "\nERRO:::::Gia tri bi trung vui long nhap lai" << endl;
+			i--;
+		}
+		else
+		{
+			x[i] = temp;
+		}
+	}
+
+}
+
+
+void XSTK::nhapni()
+{
+	for (int i = 0; i < k; i++)
+	{
+		if (i < k - 1)
+		{
+			do
+			{
+				cout << "Tan so tuong ung cua Gia Tri x " << i << " la: n[" 
+					<< i << "] = ";
+				cin >> ni[i];
+			} while (ni[i] >= n - XSTK::Tong(i) || ni[i] <= 0);
+		}
+		else
+			ni[k-1] = n - XSTK::Tong(k-1);
+	}
+}
+
+float XSTK::Tong(int t)
+{
+	float TongXS = 0;
+	for (int i = 0; i < t; i++)
+	{
+		TongXS += ni[i];
+	}
+	return TongXS;
+}
+
+
+
+void XSTK::xuat()
+{
+	cout << "n["<<k-1<<"] = "<<ni[k-1];
+	cout << "\n|  X  |   ";
+	for (int i = 0; i < k; i++)
+	{
+		cout << x[i] << "\t";
+	}
+
+	cout << "\n|  n  |   ";
+	for (int i = 0; i < k; i++)
+	{
+		cout << ni[i] << "\t";
+	}
+
+}
+
+
+float XSTK::DoLechChuanMau()
+{
+	float DLC = sqrt(XSTK::PhuongSaiMau());
+	return DLC;
+}
+
+
+float XSTK::PhuongSaiMau()
+{
+	float PS = 0, PSS = 0;
+
+	for (int i = 0; i < k; i++)
+	{
+		PS += (x[i] - XSTK::TrungBinhMau())*(x[i] - XSTK::TrungBinhMau()) * ni[i];
+	}
+	PSS = PS / (n - 1);
+	return PSS;
+}
+
+float XSTK::TrungBinhMau()
+{
+	float TBM = 0, TBMM = 0;
+	for (int i = 0; i < k; i++)
+	{
+		TBM += x[i] * ni[i];
+	}
+	TBMM = TBM / n;
+	return TBMM;
+}
+
+void XSTK::NhapDoTinCay()
+{
+	do {
+		cout << "\nNhap vao do tin cay: ";
+		cin >> dtc;
+	} while (dtc >= 1 || dtc < 0);
+}
+
+void XSTK::KhoangDoiXungM()
+{
+	float al1 = (1 - dtc) / 2;
+	if (n > 30)
+	{
+		cout << "\nNhap U(" << al1 << ") = ";
+		cin >> U;
+		t = U;
+	}
+	else
+	{
+		cout << "\nNhap t(" << al1 << ") bac " << n - 1 << " = ";
+		cin >> t;
+	}
+	
+	float A = TrungBinhMau() - (DoLechChuanMau() / sqrt(n))*t;
+	float B = TrungBinhMau() + (DoLechChuanMau() / sqrt(n))*t;
+	float etb = (DoLechChuanMau() / sqrt(n))*t;
+	cout << endl;
+	cout << "Vay khoang uoc luong voi do tin cay " << dtc << " la: ";
+	cout << "(" << A << ";" << B << ")" << endl;
+	cout << "Do Chinh Xac: e = " << etb << endl;
+}
+
+void XSTK::KhoangTraiM()
+{
+	float al1 = 1 - dtc;
+	if (n > 30)
+	{
+		cout << "\nNhap U(" << al1 << ") = ";
+		cin >> U;
+		t = U;
+	}
+	else
+	{
+		cout << "\nNhap t(" << al1 << ") bac " << n - 1 << " = ";
+		cin >> t;
+	}
+	float B = TrungBinhMau() + (DoLechChuanMau() / sqrt(n))*t;
+	cout << endl;
+	cout << "Vay khoang uoc luong voi do tin cay " << dtc << " la: ";
+	cout << "(--- ; " << B << ")" << endl;
+	cout << "\nEX(max) = " << B << endl;
+}
+
+void XSTK::KhoangPhaiM()
+{
+	float al1 = 1 - dtc;
+	if (n > 30)
+	{
+		cout << "\nNhap U(" << al1 << ") = ";
+		cin >> U;
+		t = U;
+	}
+	else
+	{
+		cout << "\nNhap t(" << al1 << ") bac " << n - 1 << " = ";
+		cin >> t;
+	}
+	float A = TrungBinhMau() - (DoLechChuanMau() / sqrt(n))*t;
+	cout << endl;
+	cout << "Vay khoang uoc luong voi do tin cay " << dtc << " la: ";
+	cout << "(" <<A <<" ; +++)" << endl;
+	cout << "\nEX(min) = " << A << endl;
+}
+
+void XSTK::KhoangDoiXungTT()
+{
+	float al1 = (1 - dtc) / 2;
+		cout << "\nNhap U(" << al1 << ") = ";
+		cin >> U;
+
+	float A = TrungBinhMau() - (dlctt / sqrt(n))*U;
+	float B = TrungBinhMau() + (dlctt / sqrt(n))*U;
+	float etb = (dlctt / sqrt(n))*U;
+	cout << endl;
+	cout << "Vay khoang uoc luong voi do tin cay " << dtc << " la: ";
+	cout << "(" << A << ";" << B << ")" << endl;
+	cout << "\nDo Chinh Xac: e = " << etb << endl;
+}
+
+void XSTK::KhoangTraiTT()
+{
+	float al1 = 1 - dtc;
+	cout << "\nNhap U(" << al1 << ") = ";
+	cin >> U;
+
+	float B = TrungBinhMau() + (dlctt / sqrt(n))*U;
+	cout << endl;
+	cout << "Vay khoang uoc luong voi do tin cay " << dtc << " la: ";
+	cout << "(--- ; " << B << ")" << endl;
+	cout << "\nEX(max) = " << B << endl;
+}
+
+void XSTK::KhoangPhaiTT()
+{
+	float al1 = 1 - dtc;
+	cout << "\nNhap U(" << al1 << ") = ";
+	cin >> U;
+
+	float A = TrungBinhMau() - (dlctt / sqrt(n))*U;
+	cout << endl;
+	cout << "Vay khoang uoc luong voi do tin cay " << dtc << " la: ";
+	cout << "("<<A<<" ; +++)" << endl;
+	cout << "\nEX(min) = " << A << endl;
+}
+
+void XSTK::LuaChonKULM()
+{
+	int bienchon;
+	cout << "\nNhap lua chon cua ban: "<<endl;
+	cout << "1. Khoang doi xung" << endl;
+	cout << "2. Khoang trai" << endl;
+	cout << "3. Khoang phai" << endl;
+	cin >> bienchon;
+	switch (bienchon)
+	{
+	case 1: KhoangDoiXungM(); break;
+	case 2: KhoangTraiM(); break;
+	case 3: KhoangPhaiM(); break;
+	}
+}
+
+void XSTK::LuaChonKULTT()
+{
+	int bienchon;
+	cout << "\nLua chon cong viec: "<<endl;
+	cout << "1. Khoang doi xung" << endl;
+	cout << "2. Khoang trai" << endl;
+	cout << "3. Khoang phai" << endl;
+	cin >> bienchon;
+	switch (bienchon)
+	{
+	case 1: KhoangDoiXungTT(); break;
+	case 2: KhoangTraiTT(); break;
+	case 3: KhoangPhaiTT(); break;
+	}
+}
+
+void XSTK::LuaChonTH()
+{
+	int bienchon;
+	cout << "\nDa biet do lech chuan cua tong the chua??"<<endl;
+	cout << "1. Da biet" << endl;
+	cout << "2. Chua biet" << endl;
+	cin >> bienchon;
+	switch (bienchon)
+	{
+	case 1: NhapDoLechChuanTongThe();
+			LuaChonKULTT();
+			break;
+	case 2: LuaChonKULM(); break;
+	}
+}
+
+void XSTK::NhapDoLechChuanTongThe()
+{
+	cout << "\nDo lech chuan cua tong the la: ";
+	cin >> dlctt;
+}
