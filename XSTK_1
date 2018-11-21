@@ -1,0 +1,154 @@
+#include<iostream>
+#include<cmath>
+#include<math.h>
+using namespace std;
+bool find_index(float X[], int n, float value);
+void nhapX(float X[], int &n);
+void nhapP(float P[], int &n);
+float KiemTra(float P[], int n);
+void xuat(float X[], float P[], int n);
+float DoLechChuan(float X[], float P[], int n);
+float PhuongSaiMau(float X[], float P[], int n);
+float TrungBinhMau(float X[], float P[], int n);
+
+float X[100], P[100];
+int n = 0, m=0;
+int main()
+{
+	cout << "\n nhap co mau: "; cin >> m;
+	nhapX(X, n);
+	do {
+		nhapP(P, n);
+		if (KiemTra(P, n) == m)
+		{
+			break;
+		}
+		else
+			cout << "\nBPPXS dang diem chua hop le!\nTong cac tan so tuong ung phai bang " << m << endl;
+	} while (KiemTra(P, n) != m);
+
+	xuat(X, P, n);
+	cout << "\nBPPXS dang diem  !!!";
+
+	cout << "\ntrung binh mau: " << TrungBinhMau(X, P, n) << endl;
+	cout << "phuong sai mau: " << PhuongSaiMau(X, P, n) << endl;
+	cout << "do lech chuan: " << DoLechChuan(X, P, n) << endl;
+
+
+
+	system("pause");
+	return 0;
+}
+
+
+bool find_index(float X[], int n, float value)
+{
+	for (int i = 0; i < n; i++)
+	{
+		if (X[i] == value)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+void nhapX(float X[], int &n)
+{
+	cout << "\nNhap so gia tri dau hieu: ";
+	cin >> n;
+	float temp;
+	for (int i = 1; i <= n; i++)
+	{
+		cout << "X" << i << " = ";
+		cin >> temp;
+		if (find_index(X, i, temp) == true)
+		{
+			cout << "\nGia tri bi trung vui long nhap lai" << endl;
+			i--;
+		}
+		else
+		{
+			X[i] = temp;
+		}
+	}
+
+}
+
+
+void nhapP(float P[], int &n)
+{
+	for (int i = 1; i <= n; i++)
+	{
+		do
+		{
+			do
+			{
+				cout << "Tan so tuong ung cua Gia Tri X" << i << " la: P" << i << " = ";
+				cin >> P[i];
+			} while (P[i] > m);
+		} while (P[i] <= 0);
+
+	}
+}
+
+float KiemTra(float P[], int n)
+{
+	float TongXS = 0;
+	for (int i = 1; i <= n; i++)
+	{
+		TongXS += P[i];
+	}
+	return TongXS;
+}
+
+
+
+void xuat(float X[], float P[], int n)
+{
+	/*xuatX(X, n);
+	xuatP(P, n);*/
+	cout << "\n|  X  |   ";
+	for (int i = 1; i <= n; i++)
+	{
+		cout << X[i] << "     |   ";
+	}
+
+	cout << "\n|  P  |   ";
+	for (int i = 1; i <= n; i++)
+	{
+		cout << P[i] << "   |   ";
+	}
+
+}
+
+
+float DoLechChuan(float X[], float P[], int n)
+{
+	float DLC = sqrt(PhuongSaiMau(X, P, n));
+	return DLC;
+}
+
+
+float PhuongSaiMau(float X[], float P[], int n)
+{
+	float PS = 0, PSS = 0;
+
+	for (int i = 1; i <= n; i++)
+	{
+		PS += (X[i] - TrungBinhMau(X, P, n))*(X[i] - TrungBinhMau(X, P, n)) * P[i];
+	}
+	PSS = PS / (m - 1);
+	return PSS;
+}
+
+float TrungBinhMau(float X[], float P[], int n)
+{
+	float TBM = 0, TBMM = 0;
+	for (int i = 1; i <= n; i++)
+	{
+		TBM += X[i] * P[i];
+	}
+	TBMM = TBM / m;
+	return TBMM;
+}
