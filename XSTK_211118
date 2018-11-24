@@ -547,7 +547,7 @@ void XSTK::KhoangTraiTanso()
 	cin >> U;
 	float B = Tansuatf() + sqrt((Tansuatf()*(1 - Tansuatf())) / n)*U;
 	cout << "Vay KUL cho p voi do tin cay " << dtc << " la: ";
-	cout << "(--- ; " << B << ")" << endl;
+	cout << "(0 ; " << B << ")" << endl;
 	cout << "P(max) = " << B << endl;
 }
 
@@ -558,7 +558,7 @@ void XSTK::KhoangPhaiTanso()
 	cin >> U;
 	float A = Tansuatf() - sqrt((Tansuatf()*(1 - Tansuatf())) / n)*U;
 	cout << "Vay KUL cho p voi do tin cay " << dtc << " la: ";
-	cout << "(" << A << " ; +++)" << endl;
+	cout << "(" << A << " ; 1)" << endl;
 	cout << "P(min) = " << A << endl;
 }
 
